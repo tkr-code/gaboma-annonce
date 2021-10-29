@@ -1,0 +1,17 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}New Annonce{% endblock %}
+
+{% block body %}
+<div class="card card-outline card-primary">
+    <div class="card-header">
+    </div>
+    <div class="card-body">
+        <h1>Create new Annonce</h1>
+
+    {{ include('admin/annonce/_form.html.twig') }}
+
+    <a href="{{ path('annonce_index') }}" class="btn btn-dark">back to list</a>
+    </div>
+</div>
+{% endblock %}
