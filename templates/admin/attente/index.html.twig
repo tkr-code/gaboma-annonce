@@ -3,5 +3,21 @@
 {% block title %}Zone attente{% endblock %}
 
 {% block body %}
-
+<div class="card card-outline card-warning">
+    <div class="card-header">
+        En attente
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                {{ include ("admin/annonce/_annonce.html.twig",{items:annonces} ) }}            
+            </div>
+            <div class="col-md-3">
+                <div class="btn-group">
+                    <button class="btn btn-dark">Blocker</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

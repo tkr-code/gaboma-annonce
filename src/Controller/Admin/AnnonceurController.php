@@ -3,9 +3,14 @@
 namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Entity\Annonce;
+use App\Entity\Image;
+use App\Form\AnnonceurType;
+use App\Repository\AnnonceRepository;
 
 class AnnonceurController extends AbstractController
 {
@@ -17,18 +22,63 @@ class AnnonceurController extends AbstractController
     /**
      * @Route("/admin/annonceur", name="annonceur_index")
      */
-    public function index(): Response
+    public function index(AnnonceRepository $annonceRepository): Response
     {
+        $user = $this->getUser();
+        // dd($annonceRepository->findUserAnnonceEtat($this->getUser(),'En attente'));
         return $this->render('admin/annonceur/index.html.twig', [
-            'controller_name' => 'AnnonceurController',
+            'parent_name' => 'Annonce',
+            'en_attente'=>$annonceRepository->etat('En attente',$user),
+            'en_ligne'=>$annonceRepository->etat('En ligne',$user,)
         ]);
     }
     /**
-     * @Route("/admin/annonceur/new", name="annonceur_new")
+     * @Route("/admin/annonceur/new", name="annonceur_new", methods={"GET","POST"})
      */
-    public function new(): Response
+    public function new(Request $request): Response
     {
-        return $this->render('admin/annonceur/new.html.twig', [
+        $annonce = new Annonce();
+        $annonce->setUser($this->getUser());
+        $form = $this->createForm(AnnonceurType::class, $annonce);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $images = $form->get('images')->getData();
+
+            foreach( $images as $image)
+            {
+                $fichier = md5(uniqid()). '.'.$image->guessExtension();  
+                $image->move(
+                    $this->getParameter('annonce_images_directory'),
+                    $fichier
+                );
+                $img = new Image();
+                $img->setName($fichier);
+                $annonce->addImage($img);
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            // dd($annonce);
+            $entityManager->persist($annonce);
+            $entityManager->flush();
+
+            $this->addFlash('success','Annonce crée et mise en attente');
+
+            return $this->redirectToRoute('annonceur_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('admin/annonceur/new.html.twig', [
+            'annonce' => $annonce,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("admin/annonceur/{id}", name="annonceur_show", methods={"GET"})
+     */
+    public function show(Annonce $annonce): Response
+    {
+        return $this->render('admin/annonceur/show.html.twig', [
+            'annonce' => $annonce,
         ]);
     }
 

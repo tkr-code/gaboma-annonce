@@ -1,7 +1,114 @@
+{% import "macros/dataTable.html.twig" as dataTable %}
+{% import "macros/alertes.html.twig" as alertes %}
 {% extends 'admin/base.html.twig' %}
 
 {% block title %}Mes annonces{% endblock %}
 
-{% block body %}
+{% block head %}
+    {{ dataTable.css() }}
+{% endblock %}
 
+{% block foot %}
+    {{ dataTable.js() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ dataTable.script('#table-1') }}
+    {{ dataTable.script('#table-2') }}
+{% endblock %}
+{% block body %}
+    {% for item in app.flashes('success') %}
+        {{ alertes.alert(item,'success') }}
+    {% endfor %}
+<div class="card card-outline card-primary">
+    <div class="card-body">
+        <a class="btn btn-primary" href="{{ path('annonceur_new') }}">New Annonce</a>
+    </div>
+</div>
+<div class="card card-primary card-tabs">
+    <div class="card-header p-0 pt-1">
+        <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+            <li class="pt-2 px-3">
+                <h3 class="card-title">Mes annonces</h3>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home"
+                    role="tab" aria-controls="custom-tabs-two-home" aria-selected="false">En ligne <span class="badge badge-success">{{ en_ligne|length }}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile"
+                    role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">En atente <span class="badge badge-info">{{ en_attente|length }}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill"
+                    href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages"
+                    aria-selected="false">Desactive <span class="badge badge-warning">{{ '0' }}</span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="custom-tabs-two-tabContent">
+            <div class="tab-pane fade active show" id="custom-tabs-two-home" role="tabpanel"
+                aria-labelledby="custom-tabs-two-home-tab">
+            <!-- En attente -->
+                <table class="table" id="table-1">
+                    <thead>
+                        <th>#id</th>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                    {% for item in en_ligne %}
+                    <tr>
+                        <td>{{ item.id }} </td>
+                        <td>
+                            <img src="{{ asset('img/annonce/vide.p') }}" alt="">
+                        </td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>
+                            <a href="{{ path('annonceur_show', {'id': item.id}) }}">show</a>
+                            {# <a href="{{ path('annonceur_edit', {'id': item.id}) }}">edit</a> #}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel"
+                aria-labelledby="custom-tabs-two-profile-tab">
+            <!-- En attente -->
+                <table class="table" id="table-1">
+                    <thead>
+                        <th>#id</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                    {% for item in en_attente %}
+                    <tr>
+                        <td>{{ item.id }} </td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>
+                            <a href="{{ path('annonceur_show', {'id': item.id}) }}">show</a>
+                            {# <a href="{{ path('annonceur_edit', {'id': item.id}) }}">edit</a> #}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="custom-tabs-two-messages" role="tabpanel"
+                aria-labelledby="custom-tabs-two-messages-tab">
+
+            </div>
+        </div>
+    </div>
+    <!-- /.card -->
+</div>
 {% endblock %}

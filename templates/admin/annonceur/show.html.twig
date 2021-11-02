@@ -1,0 +1,45 @@
+{% import "macros/link.html.twig" as link %}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Annonce{% endblock %}
+
+{% block body %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-text-width"></i>
+            View annonce
+        </h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4">Numéro</dt>
+            <dd class="col-sm-8">{{ annonce.id }}</dd>
+            <dt class="col-sm-4">Titre</dt>
+            <dd class="col-sm-8">{{ annonce.title }}</dd>
+            <dt class="col-sm-4">Prix</dt>
+            <dd class="col-sm-8">{{ annonce.price|number_format(2,'',' ') }}</dd>
+            <dt class="col-sm-4">Is active</dt>
+            <dd class="col-sm-8">{{ annonce.isActive ? 'Yes' : 'No' }}</dd>
+            <dt class="col-sm-4">Etat</dt>
+            <dd class="col-sm-8">{{ annonce.etat }}</dd>
+        </dl>
+        <div class="row">
+            <div class="col-4 btn-group">
+                {{ link.back(path('annonceur_index'))}}
+                {# {{ link.edit(path('category_edit', {'id': category.id}))}} #}
+                {# <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-success">edit</a> #}
+            </div>
+            {# {{ include('admin/annonceur/_delete_form.html.twig') }} #}
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+    {# <a href="{{ path('annonce_index') }}">back to list</a> #}
+    {# {{ link.back(path('annonceur_index')) }} #}
+
+    {# <a href="{{ path('annonce_edit', {'id': annonce.id}) }}">edit</a> #}
+
+    {# {{ include('annonce/_delete_form.html.twig') }} #}
+{% endblock %}

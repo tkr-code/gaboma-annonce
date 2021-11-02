@@ -6,6 +6,7 @@
 parameters:
     user_images_directory: '%kernel.project_dir%/public/img/user'
     maitenance_file_path: '%kernel.project_dir%/public/.maintenance'
+    annonce_images_directory: '%kernel.project_dir%/public/img/annonce'
     app.locales: [fr, en]
     locale: fr
 services:

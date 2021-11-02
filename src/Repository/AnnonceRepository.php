@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Annonce;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,52 @@ class AnnonceRepository extends ServiceEntityRepository
         parent::__construct($registry, Annonce::class);
     }
 
+    public function etat(string $etat, User $user = null ){
+       $query = $this->query()
+        ->andWhere('o.etat = :etat');
+        if($user){
+
+            $query->andWhere('o.user = :user ')
+            ->setParameter('user',$user->getId());
+        }
+      return $query
+        ->setParameter('etat',$etat)
+        ->getQuery()
+        ->getResult()
+        ;
+    }
+        /**
+     * Recheche les articles en fonctions du formulaire
+     *
+     * @param  mixed $var
+     * @return void
+     */
+    public function search($mots=null, $category=null, $min=null, $max= null)
+    {
+        $query = $this->query()
+        ->AndWhere('o.is_active = true')
+        ->AndWhere("o.etat = 'En ligne' ");
+        if($mots != null){
+            $query->andWhere('MATCH_AGAINST(o.title, o.content) AGAINST(:mots boolean) > 0')
+            ->setParameter('mots',$mots);
+        }
+        // if($min != null){
+        //     $query
+        //     ->andWhere("p.price >= :minprix ")
+        //     ->setParameter("minprix",$min);
+        //     }
+        // if($max != null){
+        //     $query
+        //         ->andWhere("p.price <= :maxprix ")
+        //         ->setParameter("maxprix",$max);
+        // }
+        // if($category != null){
+        //     $query->leftJoin('p.category', 'c');
+        //     $query->andWhere('c.id = :id')
+        //     ->setParameter('id',$category);
+        // } 
+        return $query->getQuery();
+    }
     // /**
     //  * @return Annonce[] Returns an array of Annonce objects
     //  */
@@ -47,4 +94,7 @@ class AnnonceRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function query(){
+        return $this->createQueryBuilder('o');
+    }
 }

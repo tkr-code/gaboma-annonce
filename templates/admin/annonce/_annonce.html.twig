@@ -1,0 +1,26 @@
+{% for item in items %}
+<div class="row mt-2 p-2 bg-white border rounded">
+    <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image"
+            src="{{ asset('img/annonce/vide.png') }}"></div>
+    <div class="col-md-5 mt-1">
+        <h5>{{ item.title }}</h5>
+        <div class="d-flex flex-row">
+            <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                    class="fa fa-star"></i></div><span>310</span>
+        </div>
+        <p class="text-justify text-truncate para mb-0">{{ item.content }}<br><br></p>
+    </div>
+    <div class="align-items-center align-content-center col-md-4 border-left mt-1">
+        <div class="d-flex flex-row align-items-center">
+            <h4 class="mr-1">{{ item.price|number_format(0,'',' ') ~ ' ' ~ site.current_name }}</h4>
+        </div>
+        <h6 class="text-success">Free shipping</h6>
+        <div class="d-flex flex-column mt-4">
+            <button class="btn btn-primary btn-sm" type="button">Details</button>
+            <button class="btn btn-outline-primary btn-sm mt-2" type="button">
+            Add to Contacter
+            </button>
+        </div>
+    </div>
+</div>
+{% endfor %}

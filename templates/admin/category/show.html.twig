@@ -1,47 +1,42 @@
-{% extends 'admin/base.html.twig' %}
 {% import "macros/breadcrumb.html.twig" as breadcrumb %}
+{% import "macros/link.html.twig" as link %}
+{% extends 'admin/base.html.twig' %}
 {% block title %}Category{% endblock %}
 {% block breadcrumb %}
-    {{ breadcrumb.breadcrumb('View category',[
-        {
-            name:'Categorys',
-            path:path('category_index')
-        }
-    ]) }}
+{{ breadcrumb.breadcrumb('View category',[
+{
+name:'Categorys',
+path:path('category_index')
+}
+]) }}
 {% endblock %}
 {% block body %}
 <div class="card">
     <div class="card-header">
-            <h3>Category</h3>
+        <h3 class="card-title">
+            <i class="fas fa-text-width"></i>
+            View category
+        </h3>
     </div>
+    <!-- /.card-header -->
     <div class="card-body">
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ category.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ category.name }}</td>
-            </tr>
-            <tr>
-                <th>Parent</th>
-                <td>{{ category.parent.name|default('') }}</td>
-            </tr>
-            <tr>
-                <th>Is_active</th>
-                <td>{{ category.isActive ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="mb-3">
-            <a href="{{ path('category_index') }}" class="btn btn-dark">back to list</a>
-
-    <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-success">edit</a>
+        <dl class="row">
+            <dt class="col-sm-4">Nom</dt>
+            <dd class="col-sm-8">{{ category.name }}</dd>
+            <dt class="col-sm-4">Parent</dt>
+            <dd class="col-sm-8">{{ category.parent.name|default('Sans') }}</dd>
+            <dt class="col-sm-4">Is active</dt>
+            <dd class="col-sm-8">{{ category.isActive ? 'Yes' : 'No' }}</dd>
+        </dl>
+        <div class="row">
+            <div class="col-4 btn-group">
+                {{ link.back(path('category_index'))}}
+                {{ link.edit(path('category_edit', {'id': category.id}))}}
+                {# <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-success">edit</a> #}
+            </div>
+            {{ include('admin/category/_delete_form.html.twig') }}
+        </div>
     </div>
-    {{ include('admin/category/_delete_form.html.twig') }}
-    </div>
+    <!-- /.card-body -->
 </div>
 {% endblock %}

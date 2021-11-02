@@ -6,9 +6,12 @@ use App\Repository\AnnonceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AnnonceRepository::class)
+ * @ORM\Table(name="annonce", indexes={@ORM\Index(columns={"title","content"}, flags={"fulltext"})})
  */
 class Annonce
 {
@@ -22,11 +25,15 @@ class Annonce
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\NotNull
      */
     private $title;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
+     * @Assert\NotNull
      */
     private $price;
 
@@ -42,13 +49,15 @@ class Annonce
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotNull
      */
     private $is_active = true;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotNull
      */
-    private $etat;
+    private $etat = 'En ligne';
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="annonces")
@@ -61,7 +70,8 @@ class Annonce
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="annonce")
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="annonce",cascade={"persist"})
+     * @Assert\NotBlank
      */
     private $images;
 
@@ -95,7 +105,7 @@ class Annonce
 
     public function setTitle(string $title): self
     {
-        $this->title = $title;
+        $this->title =ucfirst($title);
 
         return $this;
     }
@@ -131,7 +141,7 @@ class Annonce
 
     public function setContent(?string $content): self
     {
-        $this->content = $content;
+        $this->content =ucfirst($content);
 
         return $this;
     }
@@ -155,7 +165,7 @@ class Annonce
 
     public function setEtat(?string $etat): self
     {
-        $this->etat = $etat;
+        $this->etat =ucfirst($etat);
 
         return $this;
     }

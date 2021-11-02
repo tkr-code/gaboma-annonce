@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Repository\AnnonceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,10 +18,11 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/", name="admin")
      */
-    public function index(): Response
+    public function index(AnnonceRepository $annonceRepository): Response
     {
         return $this->render('admin/index.html.twig', [
-            'parent_page' =>$this->translator->trans('Dashboard')
+            'parent_page' =>$this->translator->trans('Dashboard'),
+            'en_attente'=>$annonceRepository->etat('En attente')
         ]);
     }
 }

@@ -24,15 +24,60 @@ class NavExtension extends AbstractExtension
     {
         return 
         [
+            'dashboard'=>
+            [
+                [
+                    'name'=>$this->translator->trans('Dashboard'),
+                    'icon'=>'fas fa-tachometer-alt',
+                    'links'=>[
+                        [
+                            'name'=>$this->translator->trans('Dashboard').' 1',
+                            'path'=>'admin'
+                        ]
+                    ]
+                ],
+                [
+                    'name'=>'Profil',
+                    'path'=>'profile_index',
+                ],
+                [
+                    'name'=>'Gaboma annonce',
+                    'icon'=>'fas fa-home',
+                    'links'=>[
+                        [
+                            'name'=>'Home',
+                            'path'=>'home'
+                        ],
+                        [
+                            'name'=>'Annonces',
+                            'path'=>'annonces'
+                        ]
+                    ]
+                ],
+                [
+                    'name'=>'Annonce',
+                    'icon'=>'fa fa-bullhorn',
+                    'links'=>[
+                        [
+                            'name'=>'Mes annonces',
+                            'path'=>'annonceur_index'
+                        ],
+                        [
+                            'name'=>'New Annonce',
+                            'path'=>'annonceur_new'
+                        ]
+                    ]
+                ]
+            ],
             'user'=>
+            [
+            ],
+            'admin'=>
             [
                 [
                     'name'=>'Attente',
                     'path'=>'admin_attente_index',
-                ]
-            ],
-            'admin'=>
-            [
+                ],
                 [
                     'name'=>'Annonce',
                     'links'=>[
@@ -74,33 +119,6 @@ class NavExtension extends AbstractExtension
                     ]
                 ],
                 
-            ],
-            'dashboard'=>
-            [
-                [
-                    'name'=>$this->translator->trans('Dashboard'),
-                    'icon'=>'fas fa-tachometer-alt',
-                    'links'=>[
-                        [
-                            'name'=>$this->translator->trans('Dashboard').' 1',
-                            'path'=>'admin'
-                        ]
-                    ]
-                ],
-                [
-                    'name'=>'Profil',
-                    'path'=>'profile_index',
-                ],
-                [
-                    'name'=>'Mes annonces',
-                    'path'=>'annonceur_index',
-                    'links'=>[
-                        [
-                            'name'=>'New Annonce',
-                            'path'=>'annonceur_new'
-                        ]
-                    ]
-                ]
             ]
         ];
     }
