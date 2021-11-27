@@ -60,10 +60,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $favoris;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $credit;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Credit::class, mappedBy="user")
+     */
+    private $credits;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->credits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,6 +242,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->favoris->removeElement($favori)) {
             $favori->removeFavori($this);
+        }
+
+        return $this;
+    }
+
+    public function getCredit(): ?int
+    {
+        return $this->credit;
+    }
+
+    public function setCredit(int $credit): self
+    {
+        $this->credit = $credit;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Credit[]
+     */
+    public function getCredits(): Collection
+    {
+        return $this->credits;
+    }
+
+    public function addCredit(Credit $credit): self
+    {
+        if (!$this->credits->contains($credit)) {
+            $this->credits[] = $credit;
+            $credit->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCredit(Credit $credit): self
+    {
+        if ($this->credits->removeElement($credit)) {
+            // set the owning side to null (unless already changed)
+            if ($credit->getUser() === $this) {
+                $credit->setUser(null);
+            }
         }
 
         return $this;

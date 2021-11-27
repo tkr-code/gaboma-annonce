@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Annonce;
+use App\Entity\AnnonceSearch;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,6 +19,14 @@ class AnnonceRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Annonce::class);
+    }
+
+    public function User(User $user){
+       return $this->query()
+        ->andWhere('o.user = :user ')
+        ->setParameter('user',$user->getId())
+        ->getQuery()->getResult();
+
     }
 
     public function etat(string $etat, User $user = null ){
@@ -40,30 +49,30 @@ class AnnonceRepository extends ServiceEntityRepository
      * @param  mixed $var
      * @return void
      */
-    public function search($mots=null, $category=null, $min=null, $max= null)
+    public function search(AnnonceSearch $search)
     {
         $query = $this->query()
         ->AndWhere('o.is_active = true')
         ->AndWhere("o.etat = 'En ligne' ");
-        if($mots != null){
+        if($search->getMots()){
             $query->andWhere('MATCH_AGAINST(o.title, o.content) AGAINST(:mots boolean) > 0')
-            ->setParameter('mots',$mots);
+            ->setParameter('mots',$search->getMots());
         }
-        // if($min != null){
-        //     $query
-        //     ->andWhere("p.price >= :minprix ")
-        //     ->setParameter("minprix",$min);
-        //     }
-        // if($max != null){
-        //     $query
-        //         ->andWhere("p.price <= :maxprix ")
-        //         ->setParameter("maxprix",$max);
-        // }
-        // if($category != null){
-        //     $query->leftJoin('p.category', 'c');
-        //     $query->andWhere('c.id = :id')
-        //     ->setParameter('id',$category);
-        // } 
+        if($search->getMinPrice()){
+            $query
+            ->andWhere("o.price >= :minprix ")
+            ->setParameter("minprix",$search->getMinPrice());
+            }
+        if($search->getMaxPrice()){
+            $query
+                ->andWhere("o.price <= :maxprix ")
+                ->setParameter("maxprix",$search->getMaxPrice());
+        }
+        if($search->getCategory()){
+            $query->leftJoin('o.category', 'c');
+            $query->andWhere('c.id = :id')
+            ->setParameter('id',$search->getCategory());
+        } 
         return $query->getQuery();
     }
     // /**

@@ -1,0 +1,38 @@
+{% macro add(name) %}
+    <button type="submit" class="btn btn-primary">{{ name|default('Save !') }}</button>
+{% endmacro %}
+
+{% macro edit() %}
+    <button type="submit" class="btn btn-success"><i class="fas fa-pencil-alt"></i>&nbsp; Update !</button>
+{% endmacro %}
+
+{% macro delete() %}
+    <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i>&nbsp; Delete !</button>
+{% endmacro %}
+
+{% macro order(state) %}
+    {% set type = '' %}
+    {% set title = '???' %}
+    {% if state == 'completed' %}
+        {% set  type = 'success' %}
+    {% endif %}
+
+    {% if state == 'canceled' %}
+        {% set  type = 'danger' %}
+    {% endif %}
+
+    {% if state == 'waiting' %}
+        {% set  type = 'default' %}
+    {% endif %}
+
+    {% if state == 'in progress' %}
+        {% set  type = 'info' %}
+    {% endif %}
+
+    <button 
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="{{ title }}" class="btn btn-{{type}} ">   
+             {{ state|trans }}
+    </button>  
+{% endmacro %}

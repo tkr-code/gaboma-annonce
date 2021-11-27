@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="{{ asset('vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
+  {% block stylesheets %}{% endblock %}
   {% block head %}{% endblock %}
 
 </head>
@@ -29,13 +30,11 @@
   .gallery img {
     width: 100px;
   }
-
-  .c-1 {
-    color: #000 !important;
+  .c-1{
+    color: #000!important;
   }
-
-  .c-1:hover {
-    color: #0069d9 !important;
+  .c-1:hover{
+    color:  #0069d9!important;
   }
 </style>
 
@@ -70,8 +69,7 @@
           <div class="navbar-search-block">
             <form class="form-inline">
               <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" type="search" placeholder="{{'Search'|trans}}"
-                  aria-label="Search">
+                <input class="form-control form-control-navbar" type="search" placeholder="{{'Search'|trans}}" aria-label="Search">
                 <div class="input-group-append">
                   <button class="btn btn-navbar" type="submit">
                     <i class="fas fa-search"></i>
@@ -224,17 +222,15 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-
-            {# {{ nav.section('Dashboard',{icon: 'fas fa-tachometer-alt',pages:navs.getNavs.dashboard})}} #}
-
             {{ nav.list(navs.getNavs.dashboard,'',parent_page|default('')) }}
-            {{ nav.list(navs.getNavs.user,'User',parent_page|default('')) }}
+            {{ nav.list(navs.getNavs.user,'',parent_page|default('')) }}
 
-            {% if is_granted('ROLE_ADMIN') %}
-            {{ nav.list(navs.getNavs.admin,'Admin',parent_page|default('')) }}
-            {# {{ nav.section('Admin',{role:'Admin',icon: 'fas fa-cogs',pages:navs.getNavs.admin})}} #}
+            {% if is_granted('ROLE_PROFESSEUR') %}
+              {{ nav.list(navs.getNavs.professeur,'Professeur',parent_page|default('')) }}
             {% endif %}
-
+            {% if is_granted('ROLE_ADMIN') %}
+              {{ nav.list(navs.getNavs.admin,'Admin',parent_page|default('')) }}
+            {% endif %}
             {{ nav.li({path:'app_logout',name:'log out',icon:'fas fa-power-off'}) }}
           </ul>
         </nav>
@@ -260,15 +256,13 @@
     <!-- /.content-wrapper -->
     {% block footer %}
     <footer class="main-footer">
-      <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+      <strong>Copyright &copy; 2021 <a href="{{ site.link }}">{{ app_name }}</a>.</strong>
       All rights reserved.
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 3.1.0
-      </div>
     </footer>
     {% endblock %}
 
-    <aside class="control-sidebar control-sidebar-dark" style="top: 57px; height: 297px; display: block;">
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
     </aside>
     <!-- /.control-sidebar -->
@@ -286,14 +280,10 @@
   <!-- Bootstrap 4 -->
   <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-  <!-- Select2 -->
-  <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
   <!-- AdminLTE App -->
   <script src="{{ asset('js/adminlte.js') }}"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="{{ asset('js/demo.js') }}"></script>
-  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-  <script src="{{ asset('js/pages/dashboard.js') }}"></script>
+  <!-- Select2 -->
+  <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
   <script>
     $(document).ready(function () {
       //Initialize Select2 Elements

@@ -1,4 +1,4 @@
-{% extends "base.html.twig" %}
+{% extends "main/base.html.twig" %}
 {% import "macros/search.html.twig" as search %}
 
 {% block title %}Toutes les annonces{% endblock %}
@@ -48,11 +48,37 @@
 </style>
 {{ search.search(form) }}
 <div class="row">
-    <div class="col-md-3"></div>
+    <div class="col-md-4">
+
+    </div>
     <div class="col-md-8">
         <div class="container-fluid mt-5 mb-5">
             <div class="d-flex justify-content-center row">
-                <div class="col-md-10">
+                <div class="col-md-11 col-11">
+                    <div class="filtres">
+                    {% if parent %}
+                        <h4>{{ parent }}</h4>
+                    {% endif %}
+                        <div style="border:1px solid #c3c3c3; background:#fff;margin:2px; border-radius:4px; padding:15px">
+                            <fieldset>
+                                <legend>Filtres
+                                    <small>
+                                        <i class="fa fa-check colorChecked"></i>
+                                        <a href="#" style="font-weight:bold">Tout
+                                            afficher</a>
+                                    </small>
+                                </legend>
+                                <div class="row">
+                                    {% for item in parents %}
+                                    <div class="col-xs-6 col-md-4 col-lg-3">
+                                        <i class="fa fa-square-o colorChecked"></i>
+                                        <a href="{{ path('annonces_categorie',{parent:item.name|lower}) }}">{{ item.name }}</a>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
                     {{ include ("main/annonce/_annonce.html.twig",{items:annonces} ) }}
                 </div>
                 <div class="pagination p-2">

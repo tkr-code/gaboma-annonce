@@ -43,27 +43,21 @@ class AnnonceSearchType extends AbstractType
                     'class'=>'form-primary'
                 ]
             ])
-            // ->add('category',EntityType::class,[
-            //     'class'=>Category::class,
-            //     // 'query_builder'=>function(EntityRepository $entityRepository){
-            //     //     return $entityRepository->createQueryBuilder('p')
-            //     //     ->where('is_anabled = true');
-            //     // },
-            //     'choice_label'=>'title',
-            //     'label'=>false,
-            //     'required'=>false,
-            //     'attr'=>[
-            //         'class'=>'form-primary',  
-            //     ],
-            //     'placeholder'=>'All articles'
-            // ])
+            ->add('category',EntityType::class,[
+                'class'=>Category::class,
+                // 'query_builder'=>function(EntityRepository $entityRepository){
+                //     return $entityRepository->createQueryBuilder('p')
+                //     ->where('p.is_active = true');
+                // },
+                'choice_label'=>'name',
+                'label'=>false,
+                'required'=>false,
+                'attr'=>[
+                    'class'=>'form-primary',  
+                ],
+                'placeholder'=>'Toutes les annonces'
+            ])
         ;
-    }
-    public function getCats(){
-        return 
-        [
-            'Ordinateur'=>'ordinateur'
-        ];
     }
     public function configureOptions(OptionsResolver $resolver)
     {

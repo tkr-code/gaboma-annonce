@@ -7,7 +7,6 @@ use Twig\TwigFunction;
 
 class NavExtension extends AbstractExtension
 {
-    const icon ='far fa-circle';
     private $translator;
     public function __construct(TranslatorInterface $translator)
     {
@@ -55,7 +54,7 @@ class NavExtension extends AbstractExtension
                     ]
                 ],
                 [
-                    'name'=>'Annonce',
+                    'name'=>'Publication',
                     'icon'=>'fa fa-bullhorn',
                     'links'=>[
                         [
@@ -67,6 +66,15 @@ class NavExtension extends AbstractExtension
                             'path'=>'annonceur_new'
                         ]
                     ]
+                ],
+                [
+                    'name'=>'Mes Crédits',
+                    'links'=>[
+                        [
+                            'name'=>'Mes credits',
+                            'path'=>'credit_index'
+                        ]
+                    ]
                 ]
             ],
             'user'=>
@@ -74,6 +82,19 @@ class NavExtension extends AbstractExtension
             ],
             'admin'=>
             [
+                [
+                    'name'=>'Crédit',
+                    'links'=>[
+                        [
+                            'name'=>'Crédits',
+                            'path'=>'admin_credit_index',
+                        ],
+                        [
+                            'name'=>'New',
+                            'path'=>'admin_credit_index',
+                        ]
+                    ]
+                ],
                 [
                     'name'=>'Attente',
                     'path'=>'admin_attente_index',

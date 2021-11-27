@@ -1,0 +1,24 @@
+<table id="table-1" class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Quantite & prix</th>
+            <th>Code</th>
+            <th>Created at</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for credit in credits %}
+        <tr>
+            <td>#{{ credit.id }}</td>
+            <td>{{ credit.quantite }} à {{ credit.montant|number_format(0,'',' ')  ~ ' ' ~ site.current }} </td>
+            <td> <i class="fas fa-copy"></i> {{ credit.code }}</td>
+            <td>{{ credit.createdAt ? credit.createdAt|date_format_fr|capitalize : '' }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="7">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

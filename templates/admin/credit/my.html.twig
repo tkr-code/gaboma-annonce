@@ -1,0 +1,47 @@
+{% extends 'admin/base.html.twig' %}
+{% import "macros/dataTable.html.twig" as dataTable %}
+{% import "macros/alertes.html.twig" as alertes %}
+
+{% block stylesheets %}
+{{ dataTable.css() }}
+{% endblock %}
+
+{% block foot %}
+{{ dataTable.js() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ dataTable.script('#table-1') }}
+{% endblock %}
+
+{% block title %}Credits{% endblock %}
+
+{% block body %}
+<div class="card card-primary card-tabs">
+    <div class="card-header p-0 pt-1">
+        <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+            <li class="pt-2 px-3">
+                <h3 class="card-title">Crédits</h3>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home"
+                    role="tab" aria-controls="custom-tabs-two-home" aria-selected="false">Utiliser <span
+                        class="badge badge-danger">0</span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="btn-group mb-3">
+            <a href="{{ path('admin_credit_new') }}" class="btn btn-primary">New Credit</a>
+        </div>
+        <div class="tab-content" id="custom-tabs-two-tabContent">
+            <div class="tab-pane fade active show" id="custom-tabs-two-home" role="tabpanel"
+                aria-labelledby="custom-tabs-two-home-tab">
+                <!-- Disponible -->                
+                {# {% include "admin/credit/_credit.html.twig" %} #}
+            </div>
+        </div>
+    </div>
+    <!-- /.card -->
+</div>
+{% endblock %}

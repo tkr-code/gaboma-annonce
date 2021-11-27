@@ -15,6 +15,7 @@ use App\Repository\AnnonceRepository;
 class AnnonceurController extends AbstractController
 {
     private $translator;
+    private $parent_page = 'Publication';
     public function __construct(TranslatorInterface $translatorInterface)
     {
         $this->translator = $translatorInterface;
@@ -25,9 +26,8 @@ class AnnonceurController extends AbstractController
     public function index(AnnonceRepository $annonceRepository): Response
     {
         $user = $this->getUser();
-        // dd($annonceRepository->findUserAnnonceEtat($this->getUser(),'En attente'));
         return $this->render('admin/annonceur/index.html.twig', [
-            'parent_name' => 'Annonce',
+            'parent_page' => $this->parent_page,
             'en_attente'=>$annonceRepository->etat('En attente',$user),
             'en_ligne'=>$annonceRepository->etat('En ligne',$user,)
         ]);
@@ -69,6 +69,7 @@ class AnnonceurController extends AbstractController
         return $this->renderForm('admin/annonceur/new.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
+            'parent_page'=>$this->parent_page
         ]);
     }
 

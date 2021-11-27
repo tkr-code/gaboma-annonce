@@ -37,7 +37,9 @@ class UserFixtures extends Fixture
             $user->setIsVerified(true);
             $user->setPassword($this->passwordEncoder->hashPassword($user,'password'))
             ->setRoles($value['roles'])
+            ->setCredit(10)
             ->setPersonne($personne);
+            $this->addReference('user_'.$value['email'],$user);
             $this->em->persist($user);
         }
         $this->em->flush();
