@@ -14,11 +14,10 @@ class CategoriParentFixtures extends Fixture
         $categories =
         [
             'Multimédiats',
-            'Informatiques',
-            'Immobilier',
+            'Immobiliers',
             'Maisons',
-            'Vetements',
-            'Smartphones',
+            'Emploies',
+            'Modes',
             'Automobiles',
         ];
         foreach($categories as $key=> $v){

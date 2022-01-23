@@ -56,6 +56,10 @@ class Category
     {
         return $this->name;
     }
+    public function getSlug(): ?string
+    {
+        return str_replace(' ','_',$this->name);
+    }
 
     public function setName(string $name): self
     {

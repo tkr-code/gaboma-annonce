@@ -1,84 +1,61 @@
 {% extends "main/base.html.twig" %}
-{% import "macros/search.html.twig" as search %}
 
 {% block title %}Toutes les annonces{% endblock %}
 {% block body %}
-<style>
-    body {
-        background: #eee
-    }
-
-    .ratings i {
-        font-size: 16px;
-        color: red
-    }
-
-    .strike-text {
-        color: red;
-        text-decoration: line-through
-    }
-
-    .product-image {
-        width: 100%
-    }
-
-    .dot {
-        height: 7px;
-        width: 7px;
-        margin-left: 6px;
-        margin-right: 6px;
-        margin-top: 3px;
-        background-color: blue;
-        border-radius: 50%;
-        display: inline-block
-    }
-
-    .spec-1 {
-        color: #938787;
-        font-size: 15px
-    }
-
-    h5 {
-        font-weight: 400
-    }
-
-    .para {
-        font-size: 16px
-    }
-</style>
-{{ search.search(form) }}
-<div class="row">
+<div class="row bg-white">
     <div class="col-md-4">
 
     </div>
     <div class="col-md-8">
-        <div class="container-fluid mt-5 mb-5">
-            <div class="d-flex justify-content-center row">
-                <div class="col-md-11 col-11">
+        <div class="container-fluid my-5 rounded">
+            <div class="d-flex justify-content-center  row">
+                <div class="col-md-12 bg-light rounded py-3 mb-3">
                     <div class="filtres">
-                    {% if parent %}
-                        <h4>{{ parent }}</h4>
-                    {% endif %}
-                        <div style="border:1px solid #c3c3c3; background:#fff;margin:2px; border-radius:4px; padding:15px">
-                            <fieldset>
-                                <legend>Filtres
-                                    <small>
-                                        <i class="fa fa-check colorChecked"></i>
-                                        <a href="#" style="font-weight:bold">Tout
-                                            afficher</a>
-                                    </small>
-                                </legend>
-                                <div class="row">
-                                    {% for item in parents %}
-                                    <div class="col-xs-6 col-md-4 col-lg-3">
-                                        <i class="fa fa-square-o colorChecked"></i>
-                                        <a href="{{ path('annonces_categorie',{parent:item.name|lower}) }}">{{ item.name }}</a>
-                                    </div>
-                                    {% endfor %}
+                        {% if app.request.attributes.get('_route') == 'annonces_parent' or app.request.attributes.get('_route') == 'annonces_categorie' %}
+                        <label for="">CATEGORIES</label>
+                        {# <select style="width:50%" class="custom-select mx-2" onChange="location=this.options[selectedIndex].value;">
+                            <option value="" selected>Catégories</option>
+                            {% for item in parents %}
+                            <option {{ item.name|lower == parent.name|lower ? 'selected' : '' }}
+                                value="{{ path('annonces_parent',{parent:item.name|lower}) }}">
+                                {{item.name}}
+                            </option>
+                            {% endfor %}
+                        </select> #}
+                        <div
+                            style="margin:2px; border-radius:4px; padding:15px">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>{{ parent.name|upper }}</h4>
                                 </div>
-                            </fieldset>
+                                {% for item in parent.categories %}
+                                <div class="col-xs-6 col-md-4 col-lg-3">
+                                    <i class="fa fa-square-o colorChecked"></i>
+                                    <a
+                                        href="{{ path('annonces_categorie',{parent:item.parent.name|lower, categorie:item.name|lower}) }}">{{
+                                        item.name ~ item.id }}</a>
+                                </div>
+                                {% endfor %}
+                            </div>
                         </div>
+                        {% endif %}
+                        {# {% if app.request.attributes.get('_route') == 'annonces_categorie' %}
+                        <legend>{{parent.name|upper}} </legend>
+                        <div class="row">
+                            <div class="col-md-12"></div>
+                            {% for item in parent.categories %}
+                            <div class="col-xs-6 col-md-4 col-lg-3">
+                                <i class="fa fa-square-o colorChecked"></i>
+                                <a
+                                    href="{{ path('annonces_categorie',{parent:item.parent.name|lower,categorie:item.slug|lower}) }}">{{
+                                    item.name }}</a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %} #}
                     </div>
+                </div>
+                <div class="col-md-12 col-12 ">
                     {{ include ("main/annonce/_annonce.html.twig",{items:annonces} ) }}
                 </div>
                 <div class="pagination p-2">
@@ -88,4 +65,12 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $(document).ready(function () {
+    //    alert('dffd')
+    })
+</script>
 {% endblock %}

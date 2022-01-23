@@ -25,11 +25,12 @@ class CategoriFixtures extends Fixture implements DependentFixtureInterface
         foreach($categories as $key =>  $v){
             $categorie = new Category();
                 $categorie->setName($v);
-                $categorie->setParent($this->getReference('parent_Informatiques'))
+                $categorie->setParent($this->getReference('parent_Multimédiats'))
                 ->setIsActive(true);
                 $manager->persist($categorie);
                 $this->addReference('categorie_'.$key,$categorie);
         }
+        
         $manager->flush();
     }
 

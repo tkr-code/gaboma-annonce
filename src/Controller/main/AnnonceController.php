@@ -4,41 +4,58 @@ namespace App\Controller\Main;
 
 use App\Entity\Annonce;
 use App\Entity\AnnonceSearch;
+use App\Entity\CategoryParent;
 use App\Form\AnnonceSearchType;
+use App\Form\AppSearchType;
 use App\Repository\AnnonceRepository;
 use App\Repository\CategoryParentRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use PhpParser\Node\Expr\Instanceof_;
 use Symfony\Component\HttpFoundation\Request;
 
 class AnnonceController extends AbstractController
 {
+
     /**
      * @Route("/annonces", name="annonces")
-     * @Route("/annonces/{parent}", name="annonces_categorie")
+     * @Route("/annonces/{parent}", name="annonces_parent")
+     * @Route("/annonces/{parent}/{categorie}", name="annonces_categorie")
      */
-    public function index(AnnonceRepository $annonceRepository,string $parent = null,CategoryParentRepository $categoryParentRepository, PaginatorInterface $paginator, Request $request): Response
+    public function index(CategoryRepository $categoryRepository, AnnonceRepository $annonceRepository,string $categorie =null, string $parent = null,CategoryParentRepository $categoryParentRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        
-
-        $categoryParentRepository->findOneBy([
-            'name'=>$parent
-        ]);
-        
+        $parentCategorie =  $parent = $categoryParentRepository->findOneBy([
+                'name'=>$parent
+            ]);
+        // dd($parentCategorie);            
         $search = new AnnonceSearch();
-        $form = $this->createForm(AnnonceSearchType::class, $search)->handleRequest($request);
+        if($categorie){
+            $categorie = str_replace('_',' ',$categorie);
+            $categorie = $categoryRepository->findOneBy([
+                'name'=>$categorie
+            ]);
+            $search->setCategory($categorie->getId());
+        }        
+        $form = $this->createForm(AppSearchType::class, $search)->handleRequest($request);
         
         $pagination = $paginator->paginate(
             $annonceRepository->search($search),
             $request->query->getInt('page',1),
             12
         );
+        // $pagination = $paginator->paginate(
+        //     $annonceRepository->parentCategorie($search),
+        //     $request->query->getInt('page',1),
+        //     12
+        // );
+
         return $this->renderForm('main/annonce/index.html.twig', [
             'form'=>$form,
             'annonces' => $pagination,
-            'parent'=>$parent,
+            'parent'=>$parentCategorie,
             'parents'=>$categoryParentRepository->findAll()
         ]);
     }

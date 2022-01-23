@@ -1,5 +1,5 @@
 {% macro search(form) %}
-<div class="rounded py-3 my-3 bg-white">
+<div class="rounded py-2">
     <div class="container">
         {{ form_start(form,{action:path('annonces'), attr:{
             id:'search-form'
@@ -7,19 +7,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="form-row ">
-                    <div class="col-6">
-                    {{ form_row(form.minPrice)}}
-                    </div>
-                    <div class="col-6">
-                    {{ form_row(form.maxPrice)}}
-                    </div>
-                    <div class="col-4">
-                    {{ form_row(form.category)}}
-                    </div>
-                    <div class="col-8">
+                    <div class="col-md-8 col-12">
                     {{ form_row(form.mots)}}
                     </div>
-                    <div class="col-4">
+                    <div class="col-md-4 col-12">
                         <button class="btn w-100 btn-primary">{% trans %}Search{% endtrans %} <i class="fa fa-search-plus" aria-hidden="true"></i> </button>
                     </div>
                 </div>

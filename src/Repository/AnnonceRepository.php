@@ -43,6 +43,12 @@ class AnnonceRepository extends ServiceEntityRepository
         ->getResult()
         ;
     }
+    public function parentCategorie(string $parentCategorie){
+        $query = $this->query()
+        // ->add()
+        ;
+        return $query->getQuery();
+    }
         /**
      * Recheche les articles en fonctions du formulaire
      *

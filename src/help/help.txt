@@ -1,0 +1,1 @@
+app.request.attributes.get('_route')
