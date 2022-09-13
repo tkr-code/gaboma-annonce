@@ -1,1 +1,121 @@
 {% extends "base.html.twig" %}
+{% block title %}
+    {{ annonce.title }}
+{% endblock %}
+{% block body %}
+<style>
+    .annonce-detail {
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+
+    .annonce-detail-card-user-img {
+        text-align: center;
+    }
+
+    .annonce-detail-img {
+        border-radius: 50%;
+        text-align: center;
+    }
+
+    .annonce-detail-card-user {
+        background-color: #fff;
+        padding: 5px;
+    }
+
+    .annonce-detail-card-user-name {
+        text-align: center;
+    }
+
+    .annonce-detail-card-img {
+        text-align: center;
+    }
+
+    .annonce-detail-card-img img {
+        /* width: 100%; */
+    }
+</style>
+<div class="container bg-white">
+    <div class="row py-3 annonce-detail">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-8">
+                    <div>
+                        <div class="annonce-detail-card-img">
+                            <img src="https://via.placeholder.com/300" alt="" srcset="">
+                        </div>
+                        <div>
+                            <span>
+                                <i class="fa fa-camera text-dark" aria-hidden="true"></i>
+                                {{annonce.images|length}}
+                            </span>
+                            <span><i class="fa fa-eye text-dark" aria-hidden="true"></i>
+                                {{ annonce.vue}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div>
+                    <h4 class="annonce-detail-title">{{ annonce.title }}</h4>
+                    <p class="annonce-detail-price">
+                        {{ annonce.price|number_format(0,'',' ') ~ ' ' ~ site.current_name }}
+                    </p>
+                    <p class="annonce-detail-desc">
+                        {{ annonce.content }}
+                    </p>
+                      Categorie: <span>{{annonce.category.name}}</span>
+                    <div>
+                        <span><i class="fas fa-map-marked-alt text-dark"></i> {{ annonce.user.adresse }} - le {{
+                            annonce.createdAt|date_format_min_fr }}</span>
+                    </div>
+                </div>
+
+                <div>
+                    <a type="button">
+                        Copie le le lien <i class="fas fa-copy"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="annonce-detail-card-user">
+                <div class="annonce-detail-card-user-img">
+                    <img src="https://via.placeholder.com/100" class="annonce-detail-img">
+                </div>
+                <p class="annonce-detail-card-user-name">Malick Tounkara</p>
+                <p>
+                    Adresse: Dakar Sacre coeur 2
+                </p>
+                <p>Compte : Professionnel</p>
+                <p>Nombre annonces: 0</p>
+                <a href="#">Cette annonceur a aussi publié</a>
+                <p>78 127 92 82 - 78 772 82 99 - 77 838 88 88</p>
+                <div>
+                    <div class="d-flex flex-column mt-1 annonce-card-action">
+                        <button class="btn btn-primary btn-sm annonce-btn-message" type="button"><i class="fa fa-comments"
+                                aria-hidden="true"></i>
+                            Message
+                        </button>
+                        {% if annonce.user.phones[0] is not empty %}
+                            {% if annonce.user.phones[0].isWhatsapp %}
+                            <button class="btn btn-success mt-2 btn-sm annonce-btn-whatsapp" type="button"> <i
+                                class="fab fa-whatsapp"></i> Message
+                                Whatsapp
+                            </button>
+                            {% endif %}
+                        <button class="btn btn-outline-primary btn-sm mt-2 annonce-btn-appeller" type="button">
+                            <i class="fas fa-phone"></i>
+                            {{ annonce.user.phones[0].number |phone_format }}
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+{% endblock %}

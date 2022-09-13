@@ -1,36 +1,63 @@
 {% for item in items %}
 <div class="row mt-2 p-2 bg-white border rounded">
-    <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="{{ asset('img/annonce/vide.png') }}">
+    <div class="col-md-2 col-3 mt-1 annonce-card-img">
+        <img class="img-fluid img-responsive annonce-img rounded product-image"
+            src="{{ asset('img/annonce/vide.png') }}">
+        <div class="annonce-card-nbr">
+            <span>
+                <i class="fa fa-camera text-dark" aria-hidden="true"></i>
+                {{item.images|length}}
+            </span>
+            <span><i class="fa fa-eye text-dark" aria-hidden="true"></i>
+                {{ item.vue}}
+            </span>
+        </div>
+
     </div>
-    <div class="col-md-5 mt-1">
+    <div class="col-md-7 col-9 mt-1">
         <a class="a-detail" href="{{ path('annonce_detail',{slug:item.slug,id:item.id}) }}">
-            <h5 class="text-truncate">{{ item.title }}</h5>
+            <h5 class="text-truncate annonce-title">{{ item.title }}</h5>
             <div class="d-flex flex-row align-items-center">
-                <h4 class="mr-1 text-danger font-weight-bold">{{ item.price|number_format(0,'',' ') ~ ' ' ~
+                <h4 class="mr-1 text-danger font-weight-bold annonce-price">{{ item.price|number_format(0,'',' ') ~ ' '
+                    ~
                     site.current_name }}</h4>
+
+                {% if item.label is not null %}
+                <div class="d-flex flex-row annonce-label">
+                    <span class="text-warning font-weight-bold">
+                        {{ item.label }}
+                    </span>
+                </div>
+                {% endif %}
             </div>
-            <div class="d-flex flex-row">
-                <span class="text-warning font-weight-bold">
-                    Urgent|Promotion
-                </span>
-            </div>
-            <p class="text-justify para mb-0">{{ item.content|slice(0,85) }} {{ item.content|length > 85 ? '[...]':''}} <br></p>
-            <div class="mb-1 spec-1">
-                <span>{{item.category.name}}</span> | <span><i class="fa fa-camera text-dark" aria-hidden="true"></i> </span> {{item.images|length}} |
-                 <span><i class="fa fa-eye text-dark" aria-hidden="true"></i> Vue </span>: 10
-                <br>
-                <span><i class="fas fa-map-marked-alt text-dark"></i> Dakar - sacré coeur 2 le 09/01/2022</span> 
+            <p class="para mb-0 annonce-content">{{ item.content|slice(0,110) }} {{ item.content|length > 110 ?
+                '[...]':''}} <br></p>
+            <div class="mb-1 spec-1 annonce-details">
+                <span>{{item.category.name}}</span> | <br>
+                <span><i class="fas fa-map-marked-alt text-dark"></i> {{ item.user.adresse }} -  le {{
+                    item.createdAt|date_format_min_fr }}</span>
             </div>
         </a>
     </div>
-    <div class="align-items-center align-content-center col-md-4 border-left mt-1">
-        <h6 class="text-success">Professionnel</h6>
-        <div class="d-flex flex-column mt-1">
-            <button class="btn btn-primary btn-sm" type="button"><i class="fa fa-comments" aria-hidden="true"></i> Message</button>
-            <button class="btn btn-success mt-2 btn-sm" type="button"> <i class="fab fa-whatsapp    "></i> Message Whatsapp</button>
-            <button class="btn btn-outline-primary btn-sm mt-2" type="button">
-                Appeller
+    <div class="align-items-center align-content-center col-md-3 col-12 border-left mt-1">
+        <h6 class="text-success annonce-compte">{{item.user.compte}}</h6>
+        <div class="d-flex flex-column mt-1 annonce-card-action">
+            <button class="btn btn-primary btn-sm annonce-btn-message" type="button"><i class="fa fa-comments"
+                    aria-hidden="true"></i>
+                Message
             </button>
+            {% if item.user.phones[0] is not empty %}
+                {% if item.user.phones[0].isWhatsapp %}
+                <button class="btn btn-success mt-2 btn-sm annonce-btn-whatsapp" type="button"> <i
+                    class="fab fa-whatsapp"></i> Message
+                    Whatsapp
+                </button>
+                {% endif %}
+            <button class="btn btn-outline-primary btn-sm mt-2 annonce-btn-appeller" type="button">
+                <i class="fas fa-phone"></i>
+                {{ item.user.phones[0].number |phone_format }}
+            </button>
+            {% endif %}
         </div>
     </div>
 </div>

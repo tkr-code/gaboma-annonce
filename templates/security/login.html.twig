@@ -39,4 +39,25 @@
         Sign in
     </button>
 </form>
+
+<form method="post">
+    <input type="hidden" value="user@mail.com" name="email" class="form-control" required>
+    <input type="hidden" value="password" name="password" class="form-control" required>
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+    <button class="btn btn-lg btn-primary" type="submit">
+        Connection en tanque qu'annonceur
+    </button>
+</form>
+<form method="post">
+    <input type="hidden" value="admin@mail.com" name="email" class="form-control" required>
+    <input type="hidden" value="password" name="password" class="form-control" required>
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+    <button class="btn btn-lg btn-primary" type="submit">
+        Connection en tanque adminitrateur
+    </button>
+</form>
 {% endblock %}

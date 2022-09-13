@@ -16,6 +16,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    const COMPTE_PROFESSIONNEL = "Professionnel";
+    const COMPTE_PARTICULIER = "Particulier";
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -70,11 +72,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $credits;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $compte;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Phone::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
+     */
+    private $phones;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adresse;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->credits = new ArrayCollection();
+        $this->phones = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -285,6 +303,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $credit->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCompte(): ?string
+    {
+        return $this->compte;
+    }
+
+    public function setCompte(string $compte): self
+    {
+        $this->compte = $compte;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Phone[]
+     */
+    public function getPhones(): Collection
+    {
+        return $this->phones;
+    }
+
+    public function addPhone(Phone $phone): self
+    {
+        if (!$this->phones->contains($phone)) {
+            $this->phones[] = $phone;
+            $phone->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhone(Phone $phone): self
+    {
+        if ($this->phones->removeElement($phone)) {
+            // set the owning side to null (unless already changed)
+            if ($phone->getUser() === $this) {
+                $phone->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

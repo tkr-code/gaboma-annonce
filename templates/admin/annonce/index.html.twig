@@ -1,11 +1,18 @@
 {% extends 'admin/base.html.twig' %}
+{% import "macros/breadcrumb.html.twig" as breadcrumb %}
 
-{% block title %}Annonce index{% endblock %}
+{% block breadcrumb %}
+    {{ breadcrumb.breadcrumb('Listes des annonces') }}
+{% endblock %}
+
+{% block title %}Lites dea annonces{% endblock %}
 
 {% block body %}
 <div class="card card-outline card-primary">
     <div class="card-header">
-        <h3>Annonce index</h3>
+        <div class="card-title">
+            Listes des annonces
+        </div>
     </div>
     <div class="card-body">
         <table class="table">

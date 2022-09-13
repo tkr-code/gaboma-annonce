@@ -17,7 +17,7 @@ class AdminController extends AbstractController
      $this->translator = $translatorInterface;   
     }
     /**
-     * @Route("/admin/", name="admin")
+     * @Route("/my-account/", name="admin")
      */
     public function index(UserRepository $userRepository, AnnonceRepository $annonceRepository): Response
     {

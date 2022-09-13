@@ -15,7 +15,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Annonce
 {
-    
+    const LABEL_URGENT = "Urgent";
+    const LABEL_PROMOTION = "Promotion";
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -80,11 +81,22 @@ class Annonce
      */
     private $favori;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $vue;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $label;
+
     const etats=[
         'En attente'=>'En attente',
         'En ligne'=>'En ligne',
         'Hors ligne'=>'Hors ligne',
     ];
+    const EN_ATTENTE = "En attente";
 
     public function __construct()
     {
@@ -248,6 +260,30 @@ class Annonce
     public function removeFavori(User $favori): self
     {
         $this->favori->removeElement($favori);
+
+        return $this;
+    }
+
+    public function getVue(): ?int
+    {
+        return $this->vue;
+    }
+
+    public function setVue(int $vue): self
+    {
+        $this->vue = $vue;
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(?string $label): self
+    {
+        $this->label = $label;
 
         return $this;
     }

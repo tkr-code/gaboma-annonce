@@ -15,7 +15,6 @@ class CategoriParentFixtures extends Fixture
         [
             'Multimédiats',
             'Immobiliers',
-            'Maisons',
             'Emploies',
             'Modes',
             'Automobiles',

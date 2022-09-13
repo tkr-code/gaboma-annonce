@@ -1,0 +1,18 @@
+<div class="d-flex flex-column mt-1 annonce-card-action">
+    <button class="btn btn-primary btn-sm annonce-btn-message" type="button"><i class="fa fa-comments"
+            aria-hidden="true"></i>
+        Message
+    </button>
+    {% if item.user.phones[0] is not empty %}
+        {% if item.user.phones[0].isWhatsapp %}
+        <button class="btn btn-success mt-2 btn-sm annonce-btn-whatsapp" type="button"> <i
+            class="fab fa-whatsapp"></i> Message
+            Whatsapp
+        </button>
+        {% endif %}
+    <button class="btn btn-outline-primary btn-sm mt-2 annonce-btn-appeller" type="button">
+        <i class="fas fa-phone"></i>
+        {{ item.user.phones[0].number |phone_format }}
+    </button>
+    {% endif %}
+</div>

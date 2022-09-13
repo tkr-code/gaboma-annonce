@@ -21,16 +21,15 @@ class AnnonceController extends AbstractController
 {
 
     /**
-     * @Route("/annonces", name="annonces")
-     * @Route("/annonces/{parent}", name="annonces_parent")
-     * @Route("/annonces/{parent}/{categorie}", name="annonces_categorie")
+     * @Route("/toutes-les-annonces", name="annonces")
+     * @Route("/toutes-les-annonces/{parent}", name="annonces_parent")
+     * @Route("/toutes-les-annonces/{parent}/{categorie}", name="annonces_categorie")
      */
     public function index(CategoryRepository $categoryRepository, AnnonceRepository $annonceRepository,string $categorie =null, string $parent = null,CategoryParentRepository $categoryParentRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $parentCategorie =  $parent = $categoryParentRepository->findOneBy([
                 'name'=>$parent
             ]);
-        // dd($parentCategorie);            
         $search = new AnnonceSearch();
         if($categorie){
             $categorie = str_replace('_',' ',$categorie);
@@ -62,7 +61,7 @@ class AnnonceController extends AbstractController
     /**
      * @Route("/annonces-details/{slug}/{id}", name="annonce_detail")
      */
-    public function detail(Annonce $annonce, string $slug): Response
+    public function show(Annonce $annonce, string $slug): Response
     {
         if($slug !== $annonce->getSlug()){
             return $this->redirectToRoute('annonce_detail',[

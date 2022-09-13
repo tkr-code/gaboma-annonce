@@ -1,4 +1,4 @@
-{% extends "main/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Toutes les annonces{% endblock %}
 {% block body %}
@@ -11,19 +11,20 @@
             <div class="d-flex justify-content-center  row">
                 <div class="col-md-12 bg-light rounded py-3 mb-3">
                     <div class="filtres">
-                        {% if app.request.attributes.get('_route') == 'annonces_parent' or app.request.attributes.get('_route') == 'annonces_categorie' %}
+                        {% if app.request.attributes.get('_route') == 'annonces_parent' or
+                        app.request.attributes.get('_route') == 'annonces_categorie' %}
                         <label for="">CATEGORIES</label>
-                        {# <select style="width:50%" class="custom-select mx-2" onChange="location=this.options[selectedIndex].value;">
+                        {# <select style="width:50%" class="custom-select mx-2"
+                            onChange="location=this.options[selectedIndex].value;">
                             <option value="" selected>Catégories</option>
                             {% for item in parents %}
-                            <option {{ item.name|lower == parent.name|lower ? 'selected' : '' }}
+                            <option {{ item.name|lower==parent.name|lower ? 'selected' : '' }}
                                 value="{{ path('annonces_parent',{parent:item.name|lower}) }}">
                                 {{item.name}}
                             </option>
                             {% endfor %}
                         </select> #}
-                        <div
-                            style="margin:2px; border-radius:4px; padding:15px">
+                        <div style="margin:2px; border-radius:4px; padding:15px">
                             <div class="row">
                                 <div class="col-md-12">
                                     <h4>{{ parent.name|upper }}</h4>
@@ -33,27 +34,20 @@
                                     <i class="fa fa-square-o colorChecked"></i>
                                     <a
                                         href="{{ path('annonces_categorie',{parent:item.parent.name|lower, categorie:item.name|lower}) }}">{{
-                                        item.name ~ item.id }}</a>
+                                        item.name }}</a>
                                 </div>
                                 {% endfor %}
                             </div>
                         </div>
                         {% endif %}
-                        {# {% if app.request.attributes.get('_route') == 'annonces_categorie' %}
-                        <legend>{{parent.name|upper}} </legend>
-                        <div class="row">
-                            <div class="col-md-12"></div>
-                            {% for item in parent.categories %}
-                            <div class="col-xs-6 col-md-4 col-lg-3">
-                                <i class="fa fa-square-o colorChecked"></i>
-                                <a
-                                    href="{{ path('annonces_categorie',{parent:item.parent.name|lower,categorie:item.slug|lower}) }}">{{
-                                    item.name }}</a>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        {% endif %} #}
                     </div>
+                </div>
+                <div class="col-md-12">
+                    {% if app.request.get('_route') == 'annonces' %}
+                        <p>Annonces trouvées: {{ annonces.getTotalItemCount }}</p>
+                        {% else %}
+                        <p>Annonces trouvées: {{ annonces|length }}</p>
+                    {% endif %}
                 </div>
                 <div class="col-md-12 col-12 ">
                     {{ include ("main/annonce/_annonce.html.twig",{items:annonces} ) }}
@@ -70,7 +64,7 @@
 {% block javascripts %}
 <script>
     $(document).ready(function () {
-    //    alert('dffd')
+        //    alert('dffd')
     })
 </script>
 {% endblock %}
